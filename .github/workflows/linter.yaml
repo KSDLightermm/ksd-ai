@@ -1,30 +1,15 @@
-#################################
-#################################
-## Super Linter GitHub Actions ##
-#################################
-#################################
-name: Lint Code Base
 
-#
-# Documentation:
-# https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions
-#
-
-#############################
-# Start the job on all push #
-#############################
-on:
-  push:
+  Push:
     branches-ignore: [main]
-    # Remove the line above to run when pushing to main
+    # Remove the line above to run when pushing to the main
   pull_request:
     branches: [main]
 
 ###############
 # Set the Job #
 ###############
-jobs:
-  build:
+Jobs:
+  Build:
     # Name the Job
     name: Lint Code Base
     # Set the agent to run on
@@ -33,7 +18,7 @@ jobs:
     ##################
     # Load all steps #
     ##################
-    steps:
+    Steps:
       ##########################
       # Checkout the code base #
       ##########################
@@ -49,14 +34,4 @@ jobs:
       - name: Lint Code Base
         uses: super-linter/super-linter/slim@v7
         env:
-          DEFAULT_BRANCH: main
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          FILTER_REGEX_EXCLUDE: 'gemini/sample-apps/finance-advisor-spanner/.*\.sql'
-          LOG_LEVEL: WARN
-          SHELLCHECK_OPTS: -e SC1091 -e 2086
-          VALIDATE_ALL_CODEBASE: false
-          VALIDATE_PYTHON_PYINK: false
-          VALIDATE_PYTHON_ISORT: false
-          VALIDATE_CHECKOV: false
-          VALIDATE_JAVASCRIPT_STANDARD: false
-          VALIDATE_TYPESCRIPT_STANDARD: false
+      
