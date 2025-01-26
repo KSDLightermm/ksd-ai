@@ -1,25 +1,61 @@
-name: Links
+The job is failing due to multiple issues, primarily related to missing files and network errors for localhost URLs. Here are the steps to resolve these issues:
 
-on:
-  repository_dispatch:
-  workflow_dispatch:
-  schedule:
-    - cron: "00 18 * * *"
+1. **Fix Missing Files**:
+   Ensure the following files are present or update the references if the paths have changed:
+   - `genkit/postcard-generator/docs/prompts`
+   - `genkit/postcard-generator/docs/libs/genkit/schema.ts`
+   - `genkit/postcard-generator/docs/libs/genkit/flows.ts`
+   - `genkit/postcard-generator/.env`
+   - `genkit/postcard-generator/docs/prompts/postcard-map.prompt`
+   - `genkit/postcard-generator/docs/prompts/_example-highlights.prompt`
+   - `genkit/postcard-generator/docs/prompts/postcard-image.prompt`
+   - `gemini/sample-apps/e2e-gen-ai-app-starter-pack/tests/load_test/cicd/cd/staging.yaml`
+   - `gemini/sample-apps/e2e-gen-ai-app-starter-pack/app/app/utils/tracing.py`
+   - `gemini/knowledge-engine`
+   - `gemini/sample-apps/e2e-gen-ai-app-starter-pack/app/patterns/agentic_rag_vertex_ai_search/pattern_setup/resources_to_copy/app/patterns/agentic_rag_vertex_ai_search/README.md`
 
-jobs:
-  linkChecker:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+2. **Update URLs**:
+   Replace localhost URLs with valid external URLs or mock them in the testing environment:
+   - `http://localhost:8000/`
+   - `http://localhost:4000/`
+   - `http://localhost:3000/`
+   - `http://localhost:6080/vnc.html`
+   - `http://localhost:8080/`
+   - `http://localhost:8501/`
 
-      - name: Link Checker
-        id: lychee
-        uses: lycheeverse/lychee-action@v2
+3. **Fix Network and Certificate Errors**:
+   Review your network settings and ensure the certificate issues are resolved. For URLs that need to be accessed securely, make sure valid SSL certificates are configured.
 
-      - name: Create Issue From File
-        if: env.lychee_exit_code != 0
-        uses: peter-evans/create-issue-from-file@v5
-        with:
-          title: Link Checker Report
-          content-filepath: ./lychee/out.md
-          labels: report, automated issue
+4. **Resolve Broken Links**:
+   - Update or remove the broken link: [https://github.com/GoogleCloudPlatform/dialogflow-ccai-omnichannel](https://github.com/GoogleCloudPlatform/dialogflow-ccai-omnichannel)
+
+Here is a sample code snippet to handle missing files in the documentation process:
+
+```python
+import os
+
+required_files = [
+    'genkit/postcard-generator/docs/prompts',
+    'genkit/postcard-generator/docs/libs/genkit/schema.ts',
+    'genkit/postcard-generator/docs/libs/genkit/flows.ts',
+    'genkit/postcard-generator/.env',
+    'genkit/postcard-generator/docs/prompts/postcard-map.prompt',
+    'genkit/postcard-generator/docs/prompts/_example-highlights.prompt',
+    'genkit/postcard-generator/docs/prompts/postcard-image.prompt',
+    'gemini/sample-apps/e2e-gen-ai-app-starter-pack/tests/load_test/cicd/cd/staging.yaml',
+    'gemini/sample-apps/e2e-gen-ai-app-starter-pack/app/app/utils/tracing.py',
+    'gemini/knowledge-engine',
+    'gemini/sample-apps/e2e-gen-ai-app-starter-pack/app/patterns/agentic_rag_vertex_ai_search/pattern_setup/resources_to_copy/app/patterns/agentic_rag_vertex_ai_search/README.md'
+]
+
+missing_files = [file for file in required_files if not os.path.exists(file)]
+
+if missing_files:
+    for file in missing_files:
+        print(f"Missing file: {file}")
+        # Handle the missing file, e.g., create it, fetch it from a remote source, etc.
+else:
+    print("All required files are present.")
+```
+
+Implement these changes and re-run the job to ensure the issues are resolved.
